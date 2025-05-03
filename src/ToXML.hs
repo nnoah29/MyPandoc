@@ -8,7 +8,6 @@ gen_attr :: String -> Maybe String -> String
 gen_attr name (Just val) = " " ++ name ++ "=\"" ++ val ++ "\""
 gen_attr _ Nothing = ""
 
--- Conversion du header
 toXMLHeader :: Header -> String
 toXMLHeader (Header tit auth date) =
     "<header title=\"" ++ tit ++ "\"" ++
@@ -16,12 +15,10 @@ toXMLHeader (Header tit auth date) =
     gen_attr "date" date ++
     "></header>"
 
--- Conversion d'un item de liste
 toXMLItem :: Item -> String
 toXMLItem (Item contents) =
     "<item>" ++ concatMap toXMLContent contents ++ "</item>"
 
--- Conversion du contenu
 toXMLContent :: Content -> String
 toXMLContent (Paragraph texts) =
     "<paragraph>" ++ concatMap toXMLText texts ++ "</paragraph>"
