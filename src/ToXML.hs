@@ -48,6 +48,7 @@ toXMLBody :: [Content] -> String
 toXMLBody contents =
     "<body>" ++ concatMap toXMLContent contents ++ "</body>"
 
+--prend un document et renvoie une string
 toXML :: Document -> String
 toXML (Document hdr contents) =
     "<document>" ++

@@ -5,6 +5,7 @@ module FromXML (
 import Document
 import Lib (Parser, parseChar, parseString, parseSome, parseMany, parseAnyChar, (<|>), runParser)
 
+--prend une string et renvoie 1 document
 parseXMLDocument :: String -> Maybe Document
 parseXMLDocument input =
    case runParser parseDocumentXml input of
