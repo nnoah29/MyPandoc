@@ -5,6 +5,7 @@ module Parser (
     generateOutput
 ) where
 
+import Lib
 import Data.List (isSuffixOf)
 import System.Exit (exitWith, ExitCode(..))
 import System.IO (stderr, hPutStrLn)
@@ -12,10 +13,10 @@ import System.IO (stderr, hPutStrLn)
 import Document                     -- types Document, Header, etc.
 import FromXML (parseXMLDocument)   -- à créer
 import FromJSON (parseJSONDocument) -- à créer
-import FromMarkdown (parseMarkdownDocument) -- bonus
+import FromMD(parseMarkdownDocument) -- bonus
 import ToXML (toXML)
 import ToJSON (toJSON)
-import ToMarkdown (toMarkdown)
+import ToMD (toMarkdown)
 
 
 getInputFormat :: Config -> String

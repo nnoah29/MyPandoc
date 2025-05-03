@@ -11,14 +11,35 @@ module Lib (
     parseOr,
     parseString,
     Parser(..),
-    (<|>)
+    (<|>),
+    Config(..),
+    defaultConfig
 ) where
+
+
 
 import Data.Maybe
 import System.Exit
 import System.IO (hPutStrLn, stderr)
 import Control.Applicative (Alternative(..), (<|>))
 import Control.Monad (Monad(..))
+
+
+data Config = Config {
+    ifile   :: String,
+    ofile   :: Maybe String,
+    iformat :: Maybe String,
+    oformat :: String
+
+} deriving (Show)
+
+defaultConfig :: Config
+defaultConfig = Config {
+    ifile   = "",      -- "-i"
+    ofile   = Nothing, -- "-o"
+    iformat = Nothing, -- "-e"
+    oformat = ""       -- "-f"
+}
 
 --sortie d'erreur
 exitWithError :: String -> IO a

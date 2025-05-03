@@ -2,7 +2,8 @@ module Document (
     Header(..),
     Content(..),
     Item(..),
-    Document(..)
+    Document(..),
+    dummyDocument
 ) where
 
 data Header = Header {
@@ -10,6 +11,8 @@ data Header = Header {
     author :: Maybe String,
     date :: Maybe String
 } deriving (Show)
+
+
 
 data Content =
       Text String
@@ -30,3 +33,13 @@ data Document = Document {
     header :: Header,
     body :: [Content]
 } deriving (Show)
+
+dummyDocument :: Document
+dummyDocument = Document {
+    header = Header {
+        title = "",
+        author = Nothing,
+        date = Nothing
+    },
+    body = []
+}
