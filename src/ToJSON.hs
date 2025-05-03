@@ -1,3 +1,10 @@
+{-
+-- EPITECH PROJECT, 2025
+-- $PANDOC
+-- File description:
+-- $PANDOC
+-}
+
 module ToJSON (
     toJSON
 ) where
