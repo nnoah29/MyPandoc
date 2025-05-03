@@ -11,11 +11,9 @@ parseXMLDocument input =
    Just (doc, "") -> Just doc
    _ -> Nothing
 
--- Parser pour les espaces et retours à la ligne
 parseSpaces :: Parser String
 parseSpaces = parseMany (parseAnyChar " \n\t\r")
 
--- Attribut obligatoire
 parseAttribute :: String -> Parser String
 parseAttribute attrName = do
   _ <- parseSpaces
@@ -28,7 +26,6 @@ parseAttribute attrName = do
   _ <- parseChar '"'
   return val
 
--- Attribut optionnel
 parseOptionalAttribute :: String -> Parser (Maybe String)
 parseOptionalAttribute attrName = (Just <$> parseAttribute attrName) <|> pure Nothing
 
@@ -56,7 +53,6 @@ parseHeaderAttributes = do
             "date"   -> (t, a, Just val)
             _        -> (t, a, d)
 
--- Parsers pour les balises
 
 parseHeaderXml :: Parser Header
 parseHeaderXml = do

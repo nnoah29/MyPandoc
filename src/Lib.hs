@@ -2,7 +2,6 @@ module Lib (
     exitWithError,
     parseUInt,
     parseInt,
-    parseTuple,
     parseSome,
     parseChar,
     parseAnyChar,
@@ -128,25 +127,6 @@ parseInt = Parser (\input ->
             case runParser parseUInt rest of
                 Nothing -> Nothing
                 Just (n, res) -> Just (-n, res))
-
-parseTuple :: Parser a -> Parser (a, a)
-parseTuple p = Parser (\input ->
-    case runParser (parseChar '(') input of
-        Nothing -> Nothing
-        Just (_, rest1) ->
-            case runParser p rest1 of
-                Nothing -> Nothing
-                Just (a1, rest2) ->
-                    case runParser (parseChar ',') rest2 of
-                        Nothing -> Nothing
-                        Just (_, rest3) ->
-                            case runParser p rest3 of
-                                Nothing -> Nothing
-                                Just (a2, rest4) ->
-                                    case runParser (parseChar ')') rest4 of
-                                        Nothing -> Nothing
-                                        Just (_, rest5) ->
-                                            Just ((a1, a2), rest5))
 
 parseString :: String -> Parser String
 parseString [] = pure []
