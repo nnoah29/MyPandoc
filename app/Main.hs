@@ -38,4 +38,5 @@ main :: IO ()
 main = do
     args <- getArgs
     conf <- getConfig args defaultConfig
+    pandoc conf
     
