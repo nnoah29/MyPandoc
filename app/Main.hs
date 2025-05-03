@@ -9,21 +9,6 @@ import Document
 
 import Lib
 
-data Config = Config {
-    ifile   :: String
-    ofile   :: Maybe String
-    iformat :: Maybe String
-    oformat :: String
-    
-} deriving (Show)
-
-defaultConfig :: Config
-defaultConfig = Config {
-    ifile   = ""      -- "-i"
-    ofile   = Nothing -- "-o"
-    iformat = Nothing -- "-e"
-    oformat = ""      -- "-f"
-}
 
 -- Parsing des arguments
 getConfig :: [String] -> Config -> IO Config
