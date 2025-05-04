@@ -1,0 +1,2 @@
+./src/FromJSON.hs:121: MINOR:H-F4 # too long function
+./src/ToMD.hs:23: MINOR:H-F4 # too long function

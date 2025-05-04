@@ -77,7 +77,8 @@ parseListBlock ls =
 
 parseParagraphBlock :: [String] -> ([Content], [String])
 parseParagraphBlock ls =
-    let (paraLines, rest) = span (\x -> not (null x) && not (isBlockStart x)) ls
+    let (paraLines, rest) = span (\x -> not (null x) &&
+            not (isBlockStart x)) ls
         content = Paragraph (concatMap parseInline paraLines)
     in ([content], rest)
 

@@ -24,7 +24,8 @@ parseWhitespace = parseMany (parseAnyChar " \n\t\r")
 parseJsonString :: Parser String
 parseJsonString = do
   _ <- parseChar '"'
-  str <- parseMany (parseAnyChar (['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ " .,:;!?-_/()=<>+*&#%@[]{}\\"))
+  str <- parseMany (parseAnyChar (['a'..'z'] ++
+    ['A'..'Z'] ++ ['0'..'9'] ++ " .,:;!?-_/()=<>+*&#%@[]{}\\"))
   _ <- parseChar '"'
   return str
 
@@ -42,82 +43,49 @@ parseKeyValue key = do
 
 parseHeaderJson :: Parser Header
 parseHeaderJson = do
-  _ <- parseWhitespace
-  _ <- parseChar '{'
-  _ <- parseWhitespace
-  
+  _ <- parseWhitespace *> parseChar '{' *>  parseWhitespace
   title <- parseKeyValue "title"  
   author <- parseOptionalAuthor
   date <- parseOptionalDate
-  _ <- parseWhitespace
-  _ <- parseChar '}'
-  
+  _ <- parseWhitespace *> parseChar '}'
   return (Header title author date)
 
 parseOptionalAuthor :: Parser (Maybe String)
 parseOptionalAuthor = do
-  _ <- parseWhitespace
-  _ <- parseChar ','
-  _ <- parseWhitespace
-  _ <- parseChar '"'
-  _ <- parseString "author"
-  _ <- parseChar '"'
-  _ <- parseWhitespace
-  _ <- parseChar ':'
-  _ <- parseWhitespace
+  _ <- parseWhitespace *>  parseChar ',' *>  parseWhitespace
+         *> parseChar '"' *> parseString "author" *> parseChar '"'
+            *> parseWhitespace *> parseChar ':' *> parseWhitespace
   author <- parseJsonString
   return (Just author)
   <|> return Nothing
 
 parseOptionalDate :: Parser (Maybe String)
 parseOptionalDate = do
-  _ <- parseWhitespace
-  _ <- parseChar ','
-  _ <- parseWhitespace
-  _ <- parseChar '"'
-  _ <- parseString "date"
-  _ <- parseChar '"'
-  _ <- parseWhitespace
-  _ <- parseChar ':'
-  _ <- parseWhitespace
+  _ <- parseWhitespace *> parseChar ',' *>  parseWhitespace
+         *> parseChar '"' *>  parseString "date" *> parseChar '"'
+             *> parseWhitespace *> parseChar ':' *>  parseWhitespace
   date <- parseJsonString
   return (Just date)
   <|> return Nothing
 
 parseParagraphJson :: Parser Content
 parseParagraphJson = do
-  _ <- parseWhitespace
-  _ <- parseChar '{'
-  _ <- parseWhitespace
-  _ <- parseChar '"'
-  _ <- parseString "paragraph"
-  _ <- parseChar '"'
-  _ <- parseWhitespace
-  _ <- parseChar ':'
-  _ <- parseWhitespace
-  _ <- parseChar '['
-  _ <- parseWhitespace
+  _ <- parseWhitespace *> parseChar '{' *> parseWhitespace
+         *> parseChar '"' *>  parseString "paragraph" *> parseChar '"'
+            *> parseWhitespace *> parseChar ':' *> parseWhitespace
+               *> parseChar '[' *>  parseWhitespace
   text <- parseJsonString
-  _ <- parseWhitespace
-  _ <- parseChar ']'
-  _ <- parseWhitespace
-  _ <- parseChar '}'
+  _ <- parseWhitespace *> parseChar ']' *> parseWhitespace
+        *> parseChar '}'
   return (Paragraph [Text text])
 
 parseCodeBlockJson :: Parser Content
 parseCodeBlockJson = do
-  _ <- parseWhitespace
-  _ <- parseChar '{'
-  _ <- parseWhitespace
-  _ <- parseChar '"'
-  _ <- parseString "codeblock"
-  _ <- parseChar '"'
-  _ <- parseWhitespace
-  _ <- parseChar ':'
-  _ <- parseWhitespace
+  _ <- parseWhitespace *> parseChar '{' *>  parseWhitespace
+        *> parseChar '"' *> parseString "codeblock" *> parseChar '"'
+            *> parseWhitespace *> parseChar ':' *> parseWhitespace
   code <- parseJsonString
-  _ <- parseWhitespace
-  _ <- parseChar '}'
+  _ <- parseWhitespace *> parseChar '}'
   return (CodeBlock code)
 
 parseContentJson :: Parser Content
@@ -154,7 +122,6 @@ parseDocumentJson = do
   _ <- parseWhitespace
   _ <- parseChar '{'
   _ <- parseWhitespace
-  
   _ <- parseChar '"'
   _ <- parseString "header"
   _ <- parseChar '"'
@@ -162,11 +129,9 @@ parseDocumentJson = do
   _ <- parseChar ':'
   _ <- parseWhitespace
   header <- parseHeaderJson
-  
   _ <- parseWhitespace
   _ <- parseChar ','
   _ <- parseWhitespace
-  
   _ <- parseChar '"'
   _ <- parseString "body"
   _ <- parseChar '"'
@@ -174,10 +139,8 @@ parseDocumentJson = do
   _ <- parseChar ':'
   _ <- parseWhitespace
   body <- parseBodyJson
-  
   _ <- parseWhitespace
   _ <- parseChar '}'
   _ <- parseWhitespace
-  
   return (Document header body)
   

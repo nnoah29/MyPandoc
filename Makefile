@@ -1,3 +1,10 @@
+##
+## EPITECH PROJECT, 2025
+## B-FUN-400-COT-4-1-chance_tossou [WSL: Ubuntu]
+## File description:
+## Makefile
+##
+
 NAME = mypandoc
 BIN_NAME = mypandoc-exe
 BIN_PATH = $(shell stack path --local-install-root)/bin/$(BIN_NAME)

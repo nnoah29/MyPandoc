@@ -23,10 +23,10 @@ getConfig [] config
     | null (ifile   config) = exitWithError "-i is required"
     | null (oformat config) = exitWithError "-f is required"
     | otherwise = return config
-getConfig ("-i" : file   : xs) config = getConfig xs config { ifile   = file        }
-getConfig ("-o" : file   : xs) config = getConfig xs config { ofile   = Just file   }
-getConfig ("-f" : format : xs) config = getConfig xs config { oformat = format      }
-getConfig ("-e" : format : xs) config = getConfig xs config { iformat = Just format }
+getConfig ("-i" : file : xs) config = getConfig xs config { ifile = file }
+getConfig ("-o" : file : xs) config = getConfig xs config { ofile = Just file }
+getConfig ("-f":format:xs) config = getConfig xs config { oformat = format }
+getConfig ("-e":format:xs) config = getConfig xs config {iformat = Just format}
 getConfig (_ : _) _ = exitWithError "Invalid argument"
 
 -- Fonction centrale
