@@ -20,19 +20,12 @@ toMarkdownHeader (Header t a d) =
 
 -- Convertit chaque élément de contenu
 toMarkdownContent :: Content -> String
-toMarkdownContent content = sliceContent content
-toMarkdownContent content = sliceVtwo
-
-sliceContent :: Content -> String
-sliceContent content = case content of
+toMarkdownContent content = case content of
     Text s          -> renderText s
     Italic c        -> renderItalic c
     Bold c          -> renderBold c
     Code s          -> renderCode s
     Paragraph cs    -> renderParagraph cs
-
-sliceVtwo :: Content -> String
-sliceVtwo content = case content of
     Section t cs    -> renderSection t cs
     CodeBlock s     -> renderCodeBlock s
     List items      -> renderList items
