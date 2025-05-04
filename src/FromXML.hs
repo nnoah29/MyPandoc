@@ -10,7 +10,7 @@ module FromXML (
 ) where
 
 import Document
-import Lib (Parser, parseChar, parseString, parseSome, parseMany, parseAnyChar, (<|>), runParser)
+import Lib (Parser(..), parseChar, parseString, parseSome, parseMany, parseAnyChar, (<|>), runParser)
 
 --prend une string et renvoie 1 document
 parseXMLDocument :: String -> Maybe Document
@@ -80,12 +80,18 @@ parseParagraphXml = do
 
 parseCodeBlockXml :: Parser Content
 parseCodeBlockXml = do
-  _ <- parseSpaces *>  parseChar '<' *> parseSpaces *> parseString "codeblock"
-        *> parseSpaces *> parseChar '>'
-  code <- parseSome (parseAnyChar (['a'..'z'] ++
-            ['A'..'Z'] ++ ['0'..'9'] ++ " .,:;!?-_/()\"'=<>"))
+  _ <- parseSpaces *> parseChar '<' *> parseSpaces *> parseString "codeblock"
+  _ <- parseSpaces *> parseChar '>'
+  code <- parseMany (parseCharNot '<')
   _ <- parseSpaces *> parseString "</codeblock>"
   return (CodeBlock code)
+
+parseCharNot :: Char -> Parser Char
+parseCharNot c = Parser $ \input ->
+  case input of
+    []     -> Nothing
+    (x:xs) -> if x /= c then Just (x, xs) else Nothing
+
 
 parseSectionXml :: Parser Content
 parseSectionXml = do
