@@ -4,3 +4,14 @@
      <paragraph>This is a simple example</paragraph>
     </body>
 </document>
+
+<document>
+  <header title="Mon Document" author="Auteur" date="2024-05-20"></header>
+  <body>
+    <paragraph>Ceci est un test simple.</paragraph>
+    <codeblock>main = putStrLn "Hello World!"</codeblock>
+    <section title="Section 1">
+      <paragraph>Contenu de section</paragraph>
+    </section>
+  </body>
+</document>
