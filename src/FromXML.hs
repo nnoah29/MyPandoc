@@ -9,15 +9,18 @@ module FromXML (
     parseXMLDocument
 ) where
 
+--module Main where
+
+import System.Environment (getArgs)
+import System.Exit (exitFailure)
 import Document
 import Lib (Parser(..), parseChar, parseString, parseSome, parseMany, parseAnyChar, (<|>), runParser)
 
+
 --prend une string et renvoie 1 document
 parseXMLDocument :: String -> Maybe Document
-parseXMLDocument input =
-   case runParser parseDocumentXml input of
-   Just (doc, "") -> Just doc
-   _ -> Nothing
+parseXMLDocument input = fmap fst (runParser parseDocumentXml input)
+
 
 parseSpaces :: Parser String
 parseSpaces = parseMany (parseAnyChar " \n\t\r")
@@ -165,3 +168,20 @@ parseDocumentXml = do
         *> parseSpaces *> parseString "document"
             *> parseSpaces *> parseChar '>'
   return (Document hdr contents)
+
+--main :: IO ()
+--main = do
+   -- args <- getArgs
+    --case args of
+      --  [filename] -> do
+        --    content <- readFile filename
+          --  case parseXMLDocument content of
+             --   Just doc -> do
+               --     putStrLn "XML parsed successfully:"
+                --    print doc
+                --Nothing -> do
+                 --   putStrLn "Failed to parse XML."
+                  --  exitFailure
+       -- _ -> do
+         --   putStrLn "Usage: ./fromxml <filename>"
+           --² exitFailure

@@ -4,12 +4,14 @@
 -- File description:
 -- $PANDOC
 -}
-
 module ToXML (
     toXML
 ) where
 
+--module Main where
+
 import Document
+
 
 gen_attr :: String -> Maybe String -> String
 gen_attr name (Just val) = " " ++ name ++ "=\"" ++ val ++ "\""
@@ -62,3 +64,23 @@ toXML (Document hdr contents) =
     toXMLHeader hdr ++
     toXMLBody contents ++
     "</document>"
+
+myDocument :: Document
+myDocument = Document
+    (Header "Titre principal" (Just "Auteur Nom") (Just "2025-05-09"))
+    [ Section (Just "Introduction")
+        [ Paragraph [Text "Ceci est un texte d’introduction."]
+        , CodeBlock "main = putStrLn \"Hello, world!\""
+        ]
+    , List
+        [ Item [Paragraph [Text "Premier élément"]]
+        , Item [Paragraph [Text "Deuxième élément"]]
+        ]
+    , Link "Epitech site" "https://epitech.eu"
+    ]
+
+--main :: IO ()
+--main = do
+  --  let xmlOutput = toXML myDocument
+    ---putStrLn "Generated XML:"
+    --putStrLn xmlOutput
